@@ -1,4 +1,4 @@
-This repository included pytorch implementation of deep learning papers and some commonly used models.
+This repository includes Pytorch implementation of deep learning papers and some commonly used models.
 
 For further details on each implementation:
 
