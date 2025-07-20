@@ -1,3 +1,7 @@
+# Overview
+
+This notebook presents a from-scratch implementation of the YOLOv8 object detection architecture using PyTorch. It is designed to break down the core components of the model into modular, interpretable blocks such as convolutional backbones, feature fusion necks, detection heads, and advanced loss functions like Distribution Focal Loss and CIoU loss. The model architecture integrates modern concepts like **C2f bottleneck blocks**, **SPPF (Spatial Pyramid Pooling - Fast)**, **FPN-style feature fusion**, and **anchor-free bounding box regression** using distributional predictions. Each component—from the convolutional stem and bottlenecks to the decode functions and NMS—has been carefully designed to mirror YOLOv8’s structure while maintaining educational clarity and customization potential. The goal is to provide a deep understanding of object detection design and to empower experimentation with custom datasets and detection pipelines.
+
 # Convolution Block
 
 This `ConvBNAct` class defines a **basic building block** used in many deep learning models, especially convolutional neural networks (CNNs).
@@ -114,7 +118,6 @@ The `sppf` (Spatial Pyramid Pooling - Fast) module is designed to **capture mult
 
 The `Neck` class is a key component in object detection architectures like **YOLOv8**, acting as a **bridge between the Backbone and the Head**. It performs **feature fusion and refinement**, combining high-, mid-, and low-level features from the Backbone to prepare them for object detection at multiple scales.
 
----
 **Purpose of the Neck:** :The goal is to **enhance feature representation** by fusing features from different stages (scales) of the backbone so that the Head can more effectively detect objects of various sizes.
 
  **Input to the Neck:**
@@ -271,13 +274,7 @@ This `DistributionFocalLoss` class implements the **DFL (Distribution Focal Loss
     * `dis_right = ceil(target)` (or `dis_left + 1`)
   * The loss encourages the model to assign high probabilities to both `dis_left` and `dis_right`, weighted based on the distance of the target from the bin centers.
 
- Mathematical Expression:
 
-Suppose the target scalar value is $t \in [0, R]$, where $R = \text{reg\_max}$, and $p_i$ are predicted probabilities (after softmax) for each bin $i \in [0, R]$.
-
-Then:
-
-```
 t_left = floor(t)
 t_right = ceil(t) = t_left + 1
 w_left = t_right - t
@@ -286,13 +283,12 @@ w_right = t - t_left
 
 The final loss per sample:
 
-```
+
 DFL(t) = -[w_left * log(p_{t_left}) + w_right * log(p_{t_right})]
-```
+
 
 This is implemented using `nll_loss` in PyTorch with `log_softmax` applied to `pred`.
 
----
 
  Why It Works:
 
