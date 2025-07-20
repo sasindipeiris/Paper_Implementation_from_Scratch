@@ -242,16 +242,6 @@ $$
 \text{FL}(p_t) = - \alpha_t \cdot (1 - p_t)^\gamma \cdot \log(p_t)
 $$
 
-Where:
-
-* $p_t = \begin{cases}
-    p & \text{if } y = 1 \\
-    1 - p & \text{otherwise}
-  \end{cases}$
-* $\alpha_t = \begin{cases}
-    \alpha & \text{if } y = 1 \\
-    1 - \alpha & \text{otherwise}
-  \end{cases}$
 
 Focal Loss is ideal for **object detection models like RetinaNet or YOLO**, where many background samples can overwhelm the model. It focuses the model on **hard-to-classify and minority class** examples, leading to better performance on challenging datasets.
 
