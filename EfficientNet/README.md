@@ -28,16 +28,14 @@ A custom convolutional block that combines three common layers used in CNNs:
 
 # Standard Convolution Vs Depthwise Convolution
 
-1. **Standard Convolution**
+1. **Standard Convolution** - This is the regular 2D convolution used in most CNNs (like ResNet, VGG, etc.).
 
-This is the regular 2D convolution used in most CNNs (like ResNet, VGG, etc.).
-
-How It Works:
+*How It Works*:
 
 * Every **input channel** is connected to **every output channel** via a **3D filter** (with depth equal to the number of input channels).
 * The operation **mixes spatial and cross-channel (depth) information** in one step.
 
-Example:
+*Example*:
 
 If you have:
 
@@ -50,19 +48,13 @@ Then:
 * Each of the 64 filters is of shape `3×3×3`
 * Total multiply-add operations: `C_out × C_in × k × k`
 
-Pros:
+Pros: Powerful, captures both spatial and cross-channel relationships
 
-* Powerful, captures both spatial and cross-channel relationships
+Cons: Computationally expensive and memory-heavy
 
-Cons:
+ 2. **Depthwise Convolution** - Depthwise convolution is part of **depthwise separable convolution**, used in lightweight models like MobileNet.
 
-* Computationally expensive and memory-heavy
-
- 2. **Depthwise Convolution**
-
-Depthwise convolution is part of **depthwise separable convolution**, used in lightweight models like MobileNet.
-
-How It Works:
+*How It Works*:
 
 * Each **input channel is convolved separately** using its own 2D filter
 * Does **not mix** information between channels — only spatial filtering
@@ -71,7 +63,7 @@ This is followed by:
 
 * A **pointwise (1×1) convolution** to combine channel information (called `Pointwise Conv`)
 
- Example:
+ *Example*:
 
 If you have:
 
@@ -84,7 +76,7 @@ Then:
 * Much fewer computations
 
 
- Comparison Table
+ **Comparison Table**
 
 | Feature             | Standard Convolution                   | Depthwise Convolution                               |
 | ------------------- | -------------------------------------- | --------------------------------------------------- |
@@ -93,7 +85,6 @@ Then:
 | Filters per output  | One 3D filter per output channel       | One 2D filter per input channel                     |
 | Use case            | Accuracy-focused models (ResNet, etc.) | Efficiency-focused models (MobileNet, EfficientNet) |
 
-Intuition
 
 * **Standard Conv** = learns *what* and *where* features are by mixing channel + spatial data in one go
 * **Depthwise Conv** = learns *where* in each channel (spatial info), then **pointwise conv** tells *what* features to combine
@@ -102,7 +93,7 @@ Intuition
 
 The SE block helps the network learn which channels are important and should be emphasized or suppressed. It does this by learning channel-wise attention weights — boosting informative features and reducing noise.
 
-**How it works : **
+**How it works :**
 
 1. **Squeeze(Global info) :**  Compress each feature map into a single value (channel descriptor) using global average pooling.Reduces each C×H×W feature map to a single number per channel → output: C×1×1.Captures global context of each feature channel.
 
@@ -125,17 +116,17 @@ Squashes the values to a range of [0, 1] → these are the attention weights
 
 The MBBlock is crafted to efficiently extract and refine features from input images using a blend of:
 
-  Channel expansion
-  
-  Depthwise convolution
-  
-  Squeeze-and-Excitation (SE) attention
-  
-  Channel projection
+   * Channel expansion
+   
+   * Depthwise convolution
+   
+   * Squeeze-and-Excitation (SE) attention
+   
+   * Channel projection
 
 Its main goal is to balance performance and efficiency. It achieves this by separating the convolution process into lightweight stages that focus on spatial and channel information independently.
 
-** Functionality:**
+**Functionality:**
 
 * **Conditional channel expansion:** If the number of input channels is smaller than a predefined multiple (called the expansion ratio), the block increases the number of channels before applying the core operations. This lets the model learn richer features while still being computationally efficient.
 
@@ -186,7 +177,7 @@ After all MBBlocks are stacked, a final 1×1 convolution is added to transform t
 
 # Putting it all together : EfficientNet Class
 
-**How Everything Comes Together: **
+**How Everything Comes Together:**
 
 When an input image passes through the EfficientNet model:
 
