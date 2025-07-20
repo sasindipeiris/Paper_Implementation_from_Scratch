@@ -100,7 +100,9 @@ The SE block helps the network learn which channels are important and should be 
 2. **Excitation(Learn Attention) :** Pass the descriptors through a small neural network (two FC layers or convs) to produce a weight (0–1) for each channel.
 
     nn.Conv2d(in_channels, reduced_dim, 1)
+   
     nn.SiLU()
+   
     nn.Conv2d(reduced_dim, in_channels, 1)
 
 This acts as a small 2-layer MLP.Reduces the channel dimension (in_channels → reduced_dim) and then restores it back.Learns a nonlinear function that decides which channels are important.
