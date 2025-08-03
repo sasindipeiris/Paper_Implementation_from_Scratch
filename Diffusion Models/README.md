@@ -14,7 +14,7 @@ This notebook presents a comprehensive walkthrough of diffusion models, a cuttin
 | `from diffusers import DDPMScheduler, UNet2DModel` | `DDPMScheduler`, `UNet2DModel` | Imported from Hugging Face's `diffusers` library. <br>• `DDPMScheduler`: Handles the noise scheduling in a Denoising Diffusion Probabilistic Model (DDPM). <br>• `UNet2DModel`: A U-Net based architecture used to predict noise at each step of the denoising process. |
 | `from matplotlib import pyplot as plt`             | `plt`                          | Used for plotting and visualizing images (e.g., original vs. denoised) and metrics during training or inference.                                                                                                                                                        |
 
-# Dataset Loading & Preparation**
+# Dataset Loading & Preparation
 
 * **MNIST Dataset**:
   Loads the standard MNIST dataset containing 28×28 grayscale images of handwritten digits (0–9).
@@ -135,6 +135,7 @@ Together, they tell a visual story of how the noise is sculpted into a digit-lik
 * The process is done **step-by-step**, where each step predicts and mixes in a cleaner version.
 * This mimics how actual diffusion models denoise an image from a known noise schedule.
 * Visualization allows us to **observe how the model incrementally refines the image**.
+
 
 
 
